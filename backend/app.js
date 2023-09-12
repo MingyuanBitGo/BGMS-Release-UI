@@ -4,7 +4,7 @@ const cors = require('cors');
 const app = express();
 const port = 80;
 
-app.use(cors()); // Enable CORS for all routes
+app.use(cors());
 app.use(express.json());
 
 app.post('/listWorkflows', async (req, res) => {
@@ -19,11 +19,12 @@ app.post('/listWorkflows', async (req, res) => {
     
     try {
         const response = await axios.get(`https://api.github.com/repos/${owner}/${repoName}/actions/workflows`, config);
+        console.log('GitHub API Response:', response.data); 
         res.json(response.data);
-        
-    } catch (error) {
+      } catch (error) {
+        console.error(error); 
         res.status(500).send(error.toString());
-    }
+      }
 });
 
 app.listen(80);
